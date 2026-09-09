@@ -1,0 +1,109 @@
+# PolyCE Binary Software License
+
+Copyright (c) 2026 Shuichi Uehara. All rights reserved.
+
+PolyCE ("Software") is proprietary software owned by Shuichi Uehara.
+
+This license grants only the limited rights expressly stated below. No ownership, source code rights, intellectual property rights, or other rights are transferred to the user.
+
+## 1. Permitted Use
+
+Subject to compliance with this license, the copyright holder grants users a limited, non-exclusive, non-transferable, revocable license to execute the distributed binary version of the Software for:
+
+* personal use;
+* academic use;
+* educational use;
+* non-commercial research use.
+
+In addition, **Shuichi Uehara, as the copyright holder, may use the Software without restriction for his own professional, employment-related, research, development, engineering, and commercial activities.**
+
+An organization employing or engaging Shuichi Uehara may use the Software for internal activities in which Shuichi Uehara is directly involved or for which he has expressly authorized such use.
+
+This exception does not grant that organization any general right to redistribute, sublicense, commercialize, modify, reverse engineer, or independently deploy the Software outside the scope authorized by Shuichi Uehara.
+
+Any other commercial, professional, business, industrial, or revenue-generating use requires prior written permission from the copyright holder.
+
+## 2. Restrictions
+
+Except where expressly authorized by Shuichi Uehara, the user may not:
+
+1. copy or redistribute the Software, except for copies reasonably necessary for personal or authorized internal backup purposes;
+
+2. sell, sublicense, rent, lease, lend, host, publish, transfer, or otherwise make the Software available to any third party;
+
+3. modify, patch, adapt, translate, or create derivative works of the Software;
+
+4. reverse engineer, decompile, disassemble, decode, or otherwise attempt to derive or reconstruct the source code, internal implementation, algorithms, data structures, or non-public interfaces of the Software;
+
+5. use debugging, binary analysis, instrumentation, tracing, or similar techniques for the purpose of reconstructing the internal implementation of the Software;
+
+6. incorporate, embed, bundle, or redistribute the Software as part of another software product, service, platform, appliance, or commercial offering;
+
+7. use the Software for the purpose of developing software that reproduces substantially similar functionality based on non-public implementation details obtained from PolyCE;
+
+8. remove, obscure, or alter copyright notices, product names, attribution notices, or other proprietary notices.
+
+## 3. No Source Code License
+
+This license applies only to binaries, documentation, examples, and other files explicitly distributed under this license.
+
+No license or right to the PolyCE source code is granted.
+
+Publication of binary files in a publicly accessible repository does not make PolyCE open-source software.
+
+## 4. Commercial and Business Use
+
+Except for use expressly authorized under Section 1 for Shuichi Uehara and organizations acting within the scope authorized by him, commercial or business use is not permitted without prior written authorization from Shuichi Uehara.
+
+Restricted use includes:
+
+* commercial research and development;
+* paid consulting;
+* commercial products or services;
+* internal corporate or industrial workflows;
+* computation or modeling services provided to third parties;
+* activities intended to generate revenue or commercial advantage.
+
+Shuichi Uehara may grant commercial or internal-use permission separately at his discretion.
+
+## 5. Third-Party Components
+
+The Software may depend on or interact with third-party software, libraries, force fields, parameter sets, datasets, or other materials.
+
+Such third-party materials remain subject to their respective licenses and terms.
+
+Nothing in this license grants rights to third-party materials beyond those provided by their respective owners.
+
+## 6. Ownership
+
+The Software and associated intellectual property rights remain the property of Shuichi Uehara or the respective third-party rights holders.
+
+All rights not expressly granted under this license are reserved.
+
+## 7. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, RELIABILITY, OR NON-INFRINGEMENT.
+
+The copyright holder does not warrant that the Software will be error-free or suitable for any particular scientific, engineering, or commercial purpose.
+
+## 8. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, CONSEQUENTIAL, OR OTHER DAMAGES ARISING FROM THE USE OF OR INABILITY TO USE THE SOFTWARE.
+
+Users are responsible for validating results produced using the Software.
+
+## 9. Termination
+
+Rights granted under this license terminate automatically upon violation of this license.
+
+Upon termination, the user must cease unauthorized use and delete unauthorized copies.
+
+## 10. Additional Permissions
+
+Any use not expressly permitted by this license requires prior written permission from:
+
+Shuichi Uehara
+
+## 11. Reservation of Rights
+
+All rights not expressly granted herein are reserved by Shuichi Uehara.

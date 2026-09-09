@@ -1,0 +1,76 @@
+variable MIN_ITER index 10000
+variable MIN_EVAL index 100000
+variable data     index 05_interface_merged.data
+variable T_HIGH   index 550.0
+variable T_ROOM   index 300.0
+variable TDAMP    index 100.0
+variable DT       index 0.25
+variable FIX_THICK index 3.0
+variable N_WARM   index 40000
+variable N_HOT    index 400000
+variable N_COOL   index 800000
+variable N_FREE   index 200000
+variable PRESS_MPA index 0.0
+units           real
+atom_style      full
+boundary        p p f
+pair_style      lj/class2/coul/long 12.0 12.0
+pair_modify     table 0
+pair_modify     mix sixthpower
+kspace_style    pppm 1.0e-5
+kspace_modify   slab 3.0
+bond_style      class2
+angle_style     class2
+dihedral_style  class2
+improper_style  class2
+special_bonds   lj 0.0 0.0 1.0 coul 0.0 0.0 1.0
+read_data       ${data}
+neighbor        2.0 bin
+neigh_modify    every 1 delay 0 check yes
+variable        n_sub index 2928
+group           substrate id 1:${n_sub}
+group           polymer subtract all substrate
+variable        zFixHi equal bound(substrate,zmin)+${FIX_THICK}
+region          R_FIXED block INF INF INF INF INF ${zFixHi} units box
+group           in_fixed region R_FIXED
+group           frozen intersect substrate in_fixed
+group           mobile subtract all frozen
+velocity        frozen set 0.0 0.0 0.0
+fix             FREEZE frozen setforce 0.0 0.0 0.0
+timestep        ${DT}
+thermo          5000
+thermo_style    custom step temp pe ke etotal
+thermo_modify   flush yes
+variable        gapnow equal bound(polymer,zmin)-bound(substrate,zmax)
+variable        spanpoly equal bound(polymer,zmax)-bound(polymer,zmin)
+print           "INITIAL gap $(v_gapnow) A  film span $(v_spanpoly) A"
+fix             REFLECT all wall/reflect zlo EDGE zhi EDGE
+min_style       cg
+minimize        1.0e-4 1.0e-6 ${MIN_ITER} ${MIN_EVAL}
+velocity        mobile create 50.0 4928459 mom yes rot yes dist gaussian
+fix             WARM mobile nvt temp 50.0 ${T_HIGH} ${TDAMP}
+run             ${N_WARM}
+unfix           WARM
+variable        FZ equal ${PRESS_MPA}*lx*ly*1.439323e-4/count(polymer)
+if "${PRESS_MPA} > 0.0" then &
+   "fix LOAD polymer addforce 0.0 0.0 -${FZ}" &
+   "print 'LOAD ${PRESS_MPA} MPa over $(lx*ly) A^2 = ${FZ} kcal/mol/A per polymer atom'"
+fix             HOT mobile nvt temp ${T_HIGH} ${T_HIGH} ${TDAMP}
+dump            DH all custom 20000 interface_hot.lammpstrj id mol type q xu yu zu
+dump_modify     DH sort id
+run             ${N_HOT}
+undump          DH
+unfix           HOT
+write_data      06_interface_hot.data
+print           "AFTER_HOT gap $(v_gapnow) A  film span $(v_spanpoly) A"
+fix             COOL mobile nvt temp ${T_HIGH} ${T_ROOM} ${TDAMP}
+run             ${N_COOL}
+unfix           COOL
+print           "AFTER_COOL gap $(v_gapnow) A  film span $(v_spanpoly) A"
+if "${PRESS_MPA} > 0.0" then "unfix LOAD"
+fix             FREE mobile nvt temp ${T_ROOM} ${T_ROOM} ${TDAMP}
+run             ${N_FREE}
+unfix           FREE
+write_data      08_interface_cooled.data
+print           "PHASE4A_DONE gap $(v_gapnow) A  film span $(v_spanpoly) A  atoms $(count(all))"
+print           "PHASE4A_DONE cooled and unloaded structure in 08_interface_cooled.data"

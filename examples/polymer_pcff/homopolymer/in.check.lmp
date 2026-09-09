@@ -1,0 +1,5 @@
+include pmma10.in.styles
+thermo 1
+thermo_style custom step atoms pe ebond eangle edihed eimp evdwl ecoul elong
+thermo_modify format float %.16g
+run 0

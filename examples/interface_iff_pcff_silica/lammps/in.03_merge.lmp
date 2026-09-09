@@ -1,0 +1,65 @@
+variable sub      index ../substrate_slab/output/substrate.data
+variable poly     index 04_polymer_slab.data
+variable gap      index 3.0
+variable vac      index 60.0
+variable off_a    index 4
+variable off_b    index 3
+variable off_ang  index 5
+variable off_d    index 4
+variable off_i    index 3
+variable xs       index 16
+variable xb       index 6
+variable xang     index 20
+variable xd       index 40
+variable xi       index 20
+variable add_a    index 7
+variable add_b    index 9
+variable add_ang  index 18
+variable add_d    index 21
+variable add_i    index 14
+units           real
+atom_style      full
+boundary        p p f
+pair_style      lj/class2/coul/long 12.0 12.0
+pair_modify     table 0
+pair_modify     mix sixthpower
+kspace_style    pppm 1.0e-5
+kspace_modify   slab 3.0
+bond_style      class2
+angle_style     class2
+dihedral_style  class2
+improper_style  class2
+special_bonds   lj 0.0 0.0 1.0 coul 0.0 0.0 1.0
+read_data       ${sub}                                                        &
+                extra/atom/types ${add_a} extra/bond/types ${add_b}           &
+                extra/angle/types ${add_ang}                                  &
+                extra/dihedral/types ${add_d} extra/improper/types ${add_i}   &
+                extra/special/per/atom ${xs} extra/bond/per/atom ${xb}        &
+                extra/angle/per/atom ${xang} extra/dihedral/per/atom ${xd}    &
+                extra/improper/per/atom ${xi}
+variable        n_sub equal $(count(all))
+group           substrate id 1:${n_sub}
+variable        sub_top equal bound(substrate,zmax)
+change_box      all z final -5.0 400.0 units box
+variable        shift_z equal ${sub_top}+${gap}
+print           "MERGE substrate top $(v_sub_top)  first shift $(v_shift_z)"
+read_data       ${poly} add append offset ${off_a} ${off_b} ${off_ang} ${off_d} ${off_i} &
+                shift 0.0 0.0 ${shift_z}
+neighbor        2.0 bin
+neigh_modify    every 1 delay 0 check yes
+group           polymer subtract all substrate
+variable        gap_now equal bound(polymer,zmin)-bound(substrate,zmax)
+run             0
+variable        dz_fix equal ${gap}-$(v_gap_now)
+print           "MERGE gap after the read $(v_gap_now), correcting by ${dz_fix}"
+displace_atoms  polymer move 0.0 0.0 ${dz_fix} units box
+variable        poly_lo equal bound(polymer,zmin)
+variable        poly_hi equal bound(polymer,zmax)
+change_box      all z final -5.0 $(v_poly_hi+v_vac) units box
+variable        gap0 equal bound(polymer,zmin)-bound(substrate,zmax)
+thermo_style    custom step pe evdwl ecoul elong
+thermo          1
+run             0
+print           "MERGED atoms $(count(all)) substrate_top $(v_sub_top) polymer $(v_poly_lo) .. $(v_poly_hi)"
+print           "MERGED gap $(v_gap0) pe $(pe)"
+write_data      05_interface_merged.data
