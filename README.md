@@ -32,17 +32,15 @@ bin/polyce-build --help
 sha256sum -c SHA256SUMS
 ```
 
-**One-time external-data setup is required before the examples run.** PCFF/IFF
-parameter databases and the IFF silica model are not bundled because their
-redistribution permission has not been established. Obtain them from their owners,
-review their terms and follow [external data setup](docs/external_data.md).
-The setup helper verifies the exact files used for validation; it does not download
-anything or grant permission to use third-party materials. After setup, the
-examples run offline using paths entirely within this distribution.
+The PCFF/IFF parameter databases and IFF silica model used by the examples are
+bundled under `external/`, so examples run offline immediately after clone. Their
+sources, pinned checksums and optional restore procedure are documented in
+[external data](docs/external_data.md). These third-party materials retain their
+own terms; their inclusion does not place them under the PolyCE license.
 
 ## Quick start
 
-After installing the PCFF files as described above:
+From the repository root:
 
 ```bash
 cd examples/polymer_pcff/homopolymer

@@ -23,21 +23,22 @@ are also user-installed external dependencies, not bundled software.
 
 ## PCFF / IFF / silica
 
-These databases and structure files are deliberately not included. The inspected
-EMC installation contains GPLv3 text; the official project's listing says MIT.
+These databases and structure files are included under `external/` so the examples
+are directly reproducible. The inspected EMC installation contains GPLv3 text;
+the official project's listing says MIT.
 The historical PCFF database has its own scientific provenance, and its scope of
 redistribution permission was not established by either indication.
 
 The IFF 1.5 archive and the authors' public GitHub repository contain parameters
 and surface models, but the inspected material does not state an explicit
 redistribution license. Citation requests are recorded; they are not treated as
-a license to repackage the files. The silica CAR/MDF and their converted MOL2
-are excluded as well as the force-field tables and typing templates.
+a change to the files' terms. The bundled files remain third-party materials and
+are not licensed under the PolyCE Binary Software License.
 
-[External data setup](docs/external_data.md) gives official sources, exact filenames,
-local installation locations, hashes and citations. The installer copies only
-user-obtained files for local use. Generated LAMMPS files containing third-party
-coefficients and surface data are not part of this release.
+[External data](docs/external_data.md) gives official sources, exact filenames,
+installation locations, hashes and citations. The installer can restore the
+pinned copies from their original distributions. Generated LAMMPS files remain
+excluded from version control.
 
 ## Scope of this audit
 

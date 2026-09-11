@@ -17,8 +17,9 @@ PMMA monomer → chains → packed periodic melt → slab → merge
 ## Requirements
 
 - Ubuntu 24.04 x86_64, PolyCE, Bash and Python 3 (standard library only).
-- The IFF 1.5 parameter database, typing templates and Q3 amorphous silica model:
-  complete [external data setup](../../docs/external_data.md) first.
+- The bundled IFF 1.5 parameter database, typing templates and Q3 amorphous
+  silica model. Their provenance and pinned checksums are documented in
+  [external data](../../docs/external_data.md).
 - **LAMMPS is required for merge, relaxation and interaction analysis.** Install
   CLASS2, KSPACE, MOLECULE and EXTRA-FIX functionality, including
   `lj/class2/coul/long`, bonded class2 styles, `pppm`, `wall/reflect`,
@@ -30,20 +31,23 @@ PMMA monomer → chains → packed periodic melt → slab → merge
 
 ## Model and parameter assignment
 
-Silica: the IFF `silica_Q3_amorph_4_7OH_0pct_ion` surface, 2928 atoms and 3736
-bonds, already silanol-terminated. `prepare_silica.py` converts the supplied
+Silica: a 2×2 in-plane replication of the IFF
+`silica_Q3_amorph_4_7OH_0pct_ion` surface, 11712 atoms and 14944 bonds, already
+silanol-terminated. `prepare_silica.py` converts the supplied
 CAR/MDF coordinates/connectivity to MOL2, wraps x/y and shifts z by +2 Å. It
 retains the original `sc4`, `oc23`, `oc24`, `hoy` types and charges, verifies that
 bond lengths survive conversion and writes `structure/conversion.json`.
 This imports an existing surface; PolyCE does not synthesize amorphous silica or
-invent termination chemistry.
+invent termination chemistry. The builder performs the replication through
+`replicate 2 2 1`; the resulting x/y cell is 80.6296 × 82.8640 Å.
 
-Polymer: 20 PMMA chains of DP20, `*CC(C)(C(=O)OC)*`, capped by `*C` at both ends.
-The periodic cell is 40.3148 × 41.4320 × 34.245854 Å, with `image_flags yes` so
+Polymer: 80 PMMA chains of DP20, `*CC(C)(C(=O)OC)*`, capped by `*C` at both ends.
+The periodic cell is 80.6296 × 82.8640 × 34.245854 Å, with `image_flags yes` so
 LAMMPS can unwrap chains before removing z periodicity. The polymer explicitly
 uses `build_nonbond_mode physical_corrected`, matching the existing bulk-first
-workflow driver rather than relying on the general CLI default. This is the existing
-small interface model, not the production-size long-chain example.
+workflow driver rather than relying on the general CLI default. Scaling the chain
+count by four preserves the original polymer density when the surface area is
+scaled from 1×1 to 2×2.
 
 Both components use the same PCFF-INTERFACE 1.5 class-II parameter database.
 Organic types and charges come from its templates and bond increments; silica
@@ -174,5 +178,6 @@ The substrate is periodic in x/y but free in z; its continuous bond network must
 not be unwrapped as a finite molecule. Only the polymer is unwrapped. Atoms outside
 a periodic face in initial PolyCE files are remapped by LAMMPS on reading.
 
-All external and generated files remain local and must not be included in a public
-release unless you separately establish their redistribution rights.
+The required force-field and silica source files are tracked under `external/`,
+so this example's PolyCE construction stage runs offline immediately after clone.
+Generated structures and outputs remain ignored.

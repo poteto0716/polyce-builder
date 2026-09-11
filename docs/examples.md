@@ -1,14 +1,15 @@
 # Examples
 
-Install external data first; see [setup](external_data.md). All lengths are Å,
-energies kcal/mol, temperatures K and densities g/cm³ for these real-unit inputs.
+Required force-field and silica data are bundled under `external/` and verified by
+the launchers; see [external data](external_data.md). All lengths are Å, energies
+kcal/mol, temperatures K and densities g/cm³ for these real-unit inputs.
 
 | Directory below `examples/` | Model | Run |
 |---|---|---|
 | `polymer_pcff/homopolymer` | PMMA DP10, 1 chain, density 1.13 | `./run.sh` |
 | `polymer_pcff/block_copolymer` | PMMA6-b-PS6, 2 chains, density 1.110 | `./run.sh` |
 | `polymer_pcff/random_copolymer` | MMA/STY 50:50 exact, DP12, 2 chains | `./run.sh` |
-| `interface_iff_pcff_silica` | Q3 amorphous silica + PMMA DP20 × 20 | `./run.sh`, then `./run_lammps.sh` |
+| `interface_iff_pcff_silica` | 2×2 Q3 amorphous silica + PMMA DP20 × 80 | `./run.sh`, then `./run_lammps.sh` |
 
 The homopolymer retains the existing PMMA DP10 reference input. The copolymer
 examples combine the existing PMMA/styrene monomer definitions, existing block
@@ -18,7 +19,8 @@ material property. Random-exact is a specified composition with a seeded shuffle
 not a kinetic polymerization model. All chains are packed by the unchanged
 builder and use the database's typing templates and parameter assignment.
 
-The interface retains the existing small bulk-first model. PolyCE constructs the
+The interface uses a 2×2 in-plane replication of the source silica cell and scales
+the polymer amount by four to retain the original density. PolyCE constructs the
 two components independently; LAMMPS relaxes the periodic polymer, unwraps its
 molecules before removing z periodicity, merges by computed type offsets, relaxes
 the interface and samples cross-interface interaction energy. IFF uses a single

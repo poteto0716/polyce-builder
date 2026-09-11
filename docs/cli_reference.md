@@ -46,6 +46,7 @@ input file; parameter/template paths in a `.ff` file are relative to that file.
 | `temperature 300` | Growth sampling temperature, K |
 | `cell 40.3148 41.4320 34.245854` | Explicit orthorhombic lengths, Å |
 | `periodic 1 1 0` | Periodic x/y, free z |
+| `replicate 2 2 1` | Tile an imported structure twice in x/y and once in z |
 | `image_flags yes` | Write molecular image flags for subsequent unwrapping |
 | `output output polymer` | Directory and filename prefix |
 
@@ -57,9 +58,11 @@ The twelve-unit example has exactly six of each monomer on each chain;
 `*.chains.csv`.
 
 The silica input uses `environment silica file ../structure/silica.mol2 format
-mol2 parameterization preserve mobility fixed`. The existing surface supplies
-its types, charges and connectivity; it does not undergo organic template typing.
-For the continuous periodic silica network, molecular image flags are omitted.
+mol2 replicate 2 2 1 parameterization preserve mobility fixed`. The existing
+surface supplies its types, charges and connectivity; it does not undergo organic
+template typing. `replicate` builds the 2×2 in-plane supercell from the CRYSIN
+lattice in the MOL2 file. For the continuous periodic silica network, molecular
+image flags are omitted.
 
 ## Force-field descriptors
 
